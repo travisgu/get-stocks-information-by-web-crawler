@@ -60,7 +60,7 @@ MY_USER_AGENT = [
 ROBOTSTXT_OBEY = False
 
 # 配置最大并发请求数(default: 16)
-CONCURRENT_REQUESTS = 1
+CONCURRENT_REQUESTS = 16
 
 # 配置爬取延迟
 # See http://scrapy.readthedocs.org/en/latest/topics/settings.html#download-delay

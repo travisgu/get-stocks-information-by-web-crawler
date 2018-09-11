@@ -16,7 +16,7 @@ class DropUncompleteItems(object):
             print('processing complete stock...')
             return item
         except:
-            raise DropItem("droped uncomplete stocks:%s" %item['股票名称'])
+            raise DropItem("dropped uncomplete stocks:%s" %item['股票名称'])
 
 
 class WritePipeline(object):
@@ -44,6 +44,7 @@ class SaveToMongodbPipeline(object):
         host = settings['MONGODB_HOST']
         port = settings['MONGODB_PORT']
         dbName = settings['MONGODB_DBNAME']
+
         client = pymongo.MongoClient(host = host,port = port)
         collection = client[dbName]
         self.stocks_info = collection[settings['MONGODB_COLLECTION_NAME']]

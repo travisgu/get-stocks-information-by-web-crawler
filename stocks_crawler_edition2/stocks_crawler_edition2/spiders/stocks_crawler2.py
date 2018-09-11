@@ -33,8 +33,8 @@ class StockSpider(scrapy.Spider):
 				url = "https://gupiao.baidu.com/stock/" + stock + ".html"
 				yield scrapy.Request(url,callback = self.parse)
 				j=j+1
-				if j>200:
-					break
+				# if j>500:
+				# 	break
 			except:
 				continue
 
@@ -57,16 +57,19 @@ class StockSpider(scrapy.Spider):
 		infoDict = OrderedDict()
 		soup = BeautifulSoup(response.body, 'html.parser')
 		stockInfo = soup.find('div',attrs={'class':'stock-bets'})
-		name = stockInfo.find_all(attrs={'class':'bets-name'})[0]
-		first_key = '股票名称'
-		infoDict.update({first_key: name.text.split()[0].encode('utf-8')})
-		try:
-			keyList = stockInfo.find_all('dt')
-			valueList = stockInfo.find_all('dd')
-			for i in range(len(keyList)):
-				key = keyList[i].text.encode('utf-8')
-				val = valueList[i].text.encode('utf-8')
-				infoDict[key] = val
-		except:
-			pass
+		if stockInfo:
+			name = stockInfo.find_all(attrs={'class':'bets-name'})[0]
+			first_key = '股票名称'
+			infoDict.update({first_key: name.text.split()[0]})
+			try:
+				keyList = stockInfo.find_all('dt')
+				valueList = stockInfo.find_all('dd')
+				for i in range(len(keyList)):
+					key = keyList[i].text
+					val = valueList[i].text
+					infoDict[key] = val
+			except:
+				pass
+		else:
+			print("no data found ")
 		yield infoDict
