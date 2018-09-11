@@ -31,11 +31,12 @@ class WritePipeline(object):
         try:
             #由于item内部本来就已经是utf-8的格式了，所以str一下以后，将会以utf-8的源码内容存储，
             #因此使用decode('string-escape')方法解码一次
-            line = str(dict(item)).decode('string-escape') + '\n'
+            line = str(dict(item)) + '\r\n'
             print(line)
             self.f.write(line)
+            self.f.flush()
         except:
-            pass
+            print("write to file error")
         return item
 
 class SaveToMongodbPipeline(object):
